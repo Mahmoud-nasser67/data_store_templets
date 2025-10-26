@@ -3,50 +3,78 @@
 
 <style>
     .notice-section {
-        background: linear-gradient(135deg, #e0f7fa, #fff);
-        padding: 60px 20px;
-        min-height: 80vh;
+        background: linear-gradient(135deg, #0891b2 0%, #06b6d4 50%, #22d3ee 100%);
+        padding: 100px 20px;
+        min-height: 85vh;
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
+        overflow: hidden;
     }
-
-    .notice-box {
-        background: white;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        padding: 40px 60px;
-        max-width: 900px;
-        width: 100%;
-        text-align: center;
+    .notice-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: moveBackground 20s linear infinite;
     }
-
-    .notice-box h2 {
-        color: #00796b;
-        font-size: 32px;
-        margin-bottom: 20px;
+    @keyframes moveBackground {
+        0% {
+            transform: translate(0, 0);
+        }
+        100% {
+            transform: translate(50px, 50px);
+        }
     }
-
     .notice-box p {
-        font-size: 20px;
-        color: #444;
-        line-height: 1.8;
-        margin-bottom: 30px;
+        font-size: 1.35rem;
+        color: #164e63;
+        line-height: 2;
+        margin-bottom: 40px;
+        font-weight: 500;
     }
-
     .whatsapp-btn {
-        background-color: #25D366;
+        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
         color: white;
-        padding: 15px 30px;
-        font-size: 18px;
+        padding: 20px 45px;
+        font-size: 1.3rem;
         border: none;
-        border-radius: 8px;
+        border-radius: 50px;
         text-decoration: none;
-        transition: background-color 0.3s ease;
+        transition: all 0.4s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
-
     .whatsapp-btn:hover {
-        background-color: #1ebe57;
+        background: linear-gradient(135deg, #128C7E 0%, #25D366 100%);
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(37, 211, 102, 0.5);
+        color: white;
+    }
+    .whatsapp-btn::before {
+        content: '📱';
+        font-size: 1.5rem;
+    }
+    @media (max-width: 768px) {
+        .notice-box {
+            padding: 40px 30px;
+        }
+        .notice-box h2 {
+            font-size: 2rem;
+        }
+        .notice-box p {
+            font-size: 1.1rem;
+        }
     }
 </style>
 
@@ -58,9 +86,46 @@
             فقط تواصل معنا عبر الواتساب وسنقوم بمساعدتك بأسرع وقت ممكن.
         </p>
         <a href="https://wa.me/966XXXXXXXXX" target="_blank" class="whatsapp-btn">
-            تواصل معنا عبر واتساب 📲
+            تواصل معنا عبر واتساب
         </a>
     </div>
 </section>
 
-{% endblock %}
+{% endblock %} {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        border-radius: 30px;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+        padding: 60px 80px;
+        max-width: 950px;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+    }
+    .notice-box::before {
+        content: '⚠️';
+        font-size: 5rem;
+        position: absolute;
+        top: -50px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #0891b2, #06b6d4);
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 30px rgba(8, 145, 178, 0.4);
+    }
+    .notice-box h2 {
+        color: #0e7490;
+        font-size: 2.8rem;
+        margin-bottom: 30px;
+        margin-top: 40px;
+        font-weight: 800;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+    }
+    .notice-box
