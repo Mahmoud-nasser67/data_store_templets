@@ -1,0 +1,117 @@
+{% extends 'partails/base.html'%}
+{% load i18n %}
+
+{% block content %}
+
+    
+    
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>{% trans 'Check Out' %}</h4>
+                    <div class="breadcrumb__links">
+                        <a href="{% url 'store.index' %}">{% trans 'Home' %}</a>
+                        <a href="{% url 'store.index' %}">{% trans 'Shop' %}</a>
+                        <span>{% trans 'Check Out' %}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<div class="container my-5">
+    <div class="row bd-highlight">
+        <div class="col-lg-7 col-md-6">
+            <h4 class="my-3">{% trans 'Your information' %}</h4>
+
+            <form id="form-user-info" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="firstNameInput" class="form-label">{% trans 'First Name' %}</label>
+                            <input type="text" class="form-control" id="firstNameInput" name="first_name" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="lastNameInput" class="form-label">{% trans 'Last Name' %}</label>
+                            <input type="text" class="form-control" id="lastNameInput" name="last_name" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="emailInput" class="form-label">{% trans 'Email' %}</label>
+                    <input type="email" class="form-control" id="emailInput" name="email" required>
+                </div>
+
+                <h4 class="my-3">{% trans 'Payment Method' %}</h4>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card" role="button" onclick="createPaypalSession()">
+                            <div class="card-body text-center">
+                                <p>{% trans 'Paypal' %}</p>
+                                <i class="lni lni-paypal-original fs-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-lg-5 col-md-6">
+            <div class="checkout__order">
+                <h4 class="order__title">{% trans 'Your order' %}</h4>
+                <div class="checkout__order__products">{% trans 'Product' %} <span>{% trans 'Total' %}</span></div>
+              <ul class="checkout__total__products">
+                    {% for product in cart_products %}
+                    <li>{{ forloop.counter }}. {{ product.name }} <span>$ {{ product.spical_price }}</span></li>
+                    {% endfor %}
+                </ul>
+                                <ul class="checkout__total__all">
+                    <li>{% trans 'Subtotal' %} <span>${{ cart_total }}</span></li>
+                    <li>{% trans 'Total' %} <span>${{ cart_total }}</span></li>
+                </ul>
+
+             <div class="col-md-12">
+                 
+                {% if user.is_authenticated %}
+                    <div class="site-btn card-body text-center" role="button" onclick="createPaypalSession()">
+                        {% trans 'PLACE ORDER' %}
+                    </div>
+                    
+                    <div id="paypal-card" class="card my-3 p-3" style="display: none">
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning text-center">
+                        {% trans "Please"%} 
+                        <a href="{% url 'login' %}">{% trans "login" %}</a> 
+                        {%trans " to complete your order." %}
+                    </div>
+                {% endif %}
+            </div>
+            <div id="payment-form-container">
+                        <div id="stripe-card" class="card my-3 p-3" style="display: none">
+                            <form id="payment-form">
+                                <div id="payment-element">
+                                </div>
+                                <button id="stripe-submit" class="btn btn-primary mt-3">
+                                    {% trans 'Pay Now' %}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

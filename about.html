@@ -1,0 +1,124 @@
+{% extends "partails/base.html" %}
+{% load i18n %}
+{% block content %}
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>{% trans "About Us" %}</h4>
+                    <div class="breadcrumb__links">
+                        <a href="">{% trans "Home" %}</a>
+                        <span>{% trans "About Us" %}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- About Section Begin -->
+<section class="about spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="about__pic">
+                    <img src="/media/about/about-us.jpg" loading="lazy" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="about__item">
+                    <h4>{% trans "Who We Are?" %}</h4>
+                    <p>{% blocktrans %}We are an online store specializing in offering the best products with the highest quality and best prices. Our goal is to provide a smooth and exceptional shopping experience for our valued customers, ensuring their complete satisfaction.{% endblocktrans %}</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="about__item">
+                    <h4>{% trans "Our Vision" %}</h4>
+                    <p>{% blocktrans %}To be the number one choice for online shopping in the Arab world by offering unique products and exceptional customer service.{% endblocktrans %}</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="about__item">
+                    <h4>{% trans "Why Choose Us" %}</h4>
+                    <ul>
+                        <li>{% trans "✔ Guaranteed quality for all products" %}</li>
+                        <li>{% trans "✔ Precise delivery and well-organized files" %}</li>
+                        <li>{% trans "✔ 24/7 technical support" %}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About Section End -->
+
+<!-- Testimonial Section Begin -->
+<section class="testimonial">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 p-0">
+                <div class="testimonial__text">
+                    <span class="icon_quotations"></span>
+                    <p>{% blocktrans %}“Going out after work? Take your butane curling iron with you to the office, heat it up, style your hair before you leave the office and you won’t have to make a trip back home.”{% endblocktrans %}</p>
+                    <div class="testimonial__author">
+                        <div class="testimonial__author__pic">
+                            <img src="/media/about/testimonial-author.jpg" loading="lazy" alt="">
+                        </div>
+                        <div class="testimonial__author__text">
+                            <h5>{% trans "Augusta Schultz" %}</h5>
+                            <p>{% trans "Fashion Design" %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 p-0">
+                <div class="testimonial__pic set-bg" style="background-image: url('/media/about/testimonial-pic.jpg')"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Testimonial Section End -->
+
+<!-- Counter Section Begin -->
+<section class="counter spad">
+  <div class="container">
+    <div class="row text-center">
+      <!-- عمود للعنصر الأول -->
+      <div class="col-md-3">
+        <div class="counter__item">
+          <h2 class="cn_num">102</h2>
+          <span>{% trans "Our Clients" %}</span>
+        </div>
+      </div>
+      <!-- عمود للعنصر الثاني -->
+      <div class="col-md-3">
+        <div class="counter__item">
+          <h2 class="cn_num">30</h2>
+          <span>{% trans "Total Categories" %}</span>
+        </div>
+      </div>
+      <!-- عمود للعنصر الثالث -->
+      <div class="col-md-3">
+        <div class="counter__item">
+          <h2 class="cn_num">102</h2>
+          <span>{% trans "In Country" %}</span>
+        </div>
+      </div>
+      <!-- عمود للعنصر الرابع -->
+      <div class="col-md-3">
+        <div class="counter__item">
+          <h2 class="cn_num">98<strong>%</strong></h2>
+          <span>{% trans "Happy Customer" %}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Counter Section End -->
+
+{% endblock %}

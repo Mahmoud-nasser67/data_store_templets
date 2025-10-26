@@ -1,0 +1,66 @@
+{% extends 'partails/base.html' %}
+{% block content %}
+
+<style>
+    .notice-section {
+        background: linear-gradient(135deg, #e0f7fa, #fff);
+        padding: 60px 20px;
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .notice-box {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 40px 60px;
+        max-width: 900px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .notice-box h2 {
+        color: #00796b;
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+
+    .notice-box p {
+        font-size: 20px;
+        color: #444;
+        line-height: 1.8;
+        margin-bottom: 30px;
+    }
+
+    .whatsapp-btn {
+        background-color: #25D366;
+        color: white;
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .whatsapp-btn:hover {
+        background-color: #1ebe57;
+    }
+</style>
+
+<section class="notice-section">
+    <div class="notice-box">
+        <h2>تنبيه هام للعملاء</h2>
+        <p>
+            إذا كنت ترغب في استخراج أو سحب بيانات من موقع معيّن، نحن هنا لمساعدتك!
+            فقط تواصل معنا عبر الواتساب وسنقوم بمساعدتك بأسرع وقت ممكن.
+        </p>
+        <a href="https://wa.me/966XXXXXXXXX" target="_blank" class="whatsapp-btn">
+            تواصل معنا عبر واتساب 📲
+        </a>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% load i18n %}
+<div class="d-flex align-items-center gap-2 flex-nowrap justify-content-center w-100">
+    <!-- نموذج البحث -->
+    <form class="d-flex align-items-center gap-2 flex-nowrap" action="{% url 'store.category' %}" method="get">
+        <input
+            name="query"
+            type="text"
+            class="form-control flex-grow-1"
+            style="max-width: 400px;"
+            placeholder="{% trans 'search' %}"
+            value="{{ request.GET.query }}"
+        />
+
+        <select class="form-select w-auto" name="category">
+            <option value="">{% trans 'All categories' %}</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+
+        <button class="btn btn-success" type="submit">
+            <i class="lni text-white"></i> {% trans 'Search' %}
+        </button>
+    </form>
+
+</div>

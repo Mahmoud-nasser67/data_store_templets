@@ -1,0 +1,45 @@
+{% extends 'partails/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center text-primary mb-4">{% trans 'Login' %}</h2>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- عرض الأخطاء بشكل واضح -->
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <strong>{% trans 'Please correct the following errors:' %}</strong>
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <div class="mb-3">
+                <label class="form-label"><i class="fa fa-user"></i> {% trans 'Username' %}</label>
+                {{ form.username }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><i class="fa fa-lock"></i> {% trans 'Password' %}</label>
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100"><i class="fa fa-sign-in-alt"></i> {% trans 'Login' %}</button>
+        </form>
+
+        <p class="text-center mt-3">
+            {% trans "Don't have an account?" %}
+            <a href="{% url 'register' %}" class="text-success">{% trans 'Create a new account' %}</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

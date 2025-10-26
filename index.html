@@ -1,0 +1,229 @@
+{% extends 'partails/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="container my-5">
+
+
+    <!-- Banner Section Begin -->
+    <section class="banner spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 offset-lg-4">
+                    <div class="banner__item">
+                        {% if categories %}
+                                  <div class="banner__item">
+                                    <div class="banner__item__pic">
+                                      <img src="{{ categories.0.image.url }}" loading="lazy" alt="{{ categories.0.name }}" style='max-width: 500px;margin: 20px;'>
+                                    </div>
+                                    <div class="banner__item__text">
+                                      <h2>{{ categories.0.name }}</h2>
+                                      <a href="{% url 'store.category' categories.0.id %}">{% trans "Shop now" %}</a>
+                                    </div>
+                                  </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    {% if categories.1 %}
+                                  <div class="banner__item banner__item--middle">
+                                    <div class="banner__item__pic">
+                                      <img src="{{ categories.1.image.url }}" loading="lazy" alt="{{ categories.1.name }}" style='max-width: 500px;margin: 20px;'>
+                                    </div>
+                                    <div class="banner__item__text">
+                                      <h2>{{ categories.1.name }}</h2>
+                                      <a href="{% url 'store.category' categories.1.id %}">{% trans "Shop now" %}</a>
+                                    </div>
+                                  </div>
+                        {% endif %}
+                </div>
+                <div class="col-lg-8">
+                    {% if categories.2 %}
+                                  <div class="banner__item banner__item--last">
+                                    <div class="banner__item__pic">
+                                      <img src="{{ categories.2.image.url }}" loading="lazy" alt="{{ categories.2.name }}" style='max-width: 500px;margin: 20px;'>
+                                    </div>
+                                    <div class="banner__item__text">
+                                      <h2>{{ categories.2.name }}</h2>
+                                      <a href="{% url 'store.category' categories.2.id %}">{% trans "Shop now" %}</a>
+                                    </div>
+                                  </div>
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+         
+    </section>
+    <!-- Banner Section End -->
+
+    <section class="product spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="filter__controls">
+                        <li class="active" data-filter="*">{% trans "Best Sellers" %}</li>
+                        <li data-filter=".new-arrivals">{% trans "New Arrivals" %}</li>
+                        <li data-filter=".hot-sales" style='margin-right: 88;'>{% trans "Hot Sales" %}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row product__filter">
+                {% include 'common/product_cart.html' with products=products %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section Begin -->
+    <section class="categories spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="categories__text">
+                        <h2>{% trans "Precise Companies" %} <br/>
+                            <span>{% trans "Detailed Product Info" %}</span> <br/>
+                            {% trans "Quality Assurance" %}
+                        </h2>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="categories__hot__deal">
+                        <img src="{{ categories.2.image.url }}" alt="{{ categories.2.name }}">
+                        <div class="hot__deal__sticker">
+                            <span>{% trans "Exclusive Offer" %}</span>
+                            <h5>$29.99</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 offset-lg-1">
+                    <div class="categories__deal__countdown">
+                        <span>{% trans "Featured Company" %}</span>
+                        <h2>{% trans "Accurate Product Details" %}</h2>
+                        <a href="{% url 'store.category' categories.2.id %}" class="primary-btn">
+                            {% trans "View Details" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+    <!-- Categories Section End -->
+
+    <!-- Instagram Section Begin -->
+    <section class="instagram spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="instagram__pic">
+                        <div class="instagram__pic__item set-bg" style="background-image: url('media/instagram/instagram-1.jpg')"></div>
+                        <div class="instagram__pic__item set-bg" style="background-image: url('media/instagram/instagram-2.jpg')"></div>
+                        <div class="instagram__pic__item set-bg" style="background-image: url('media/instagram/instagram-3.jpg')"></div>
+                        <div class="instagram__pic__item set-bg" style="background-image: url('media/instagram/instagram-4.jpg')"></div>
+                        <div class="instagram__pic__item set-bg" style="background-image: url('media/instagram/instagram-5.jpg')"></div>
+                        <div class="instagram__pic__item set-bg" style="background-image: url('media/instagram/instagram-6.jpg')"></div>
+                
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="instagram__text">
+                        <h2>{% trans "Instagram" %}</h2>
+                        <p>{% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." %}</p>
+                        <h3>#Male_Fashion</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Instagram Section End -->
+<!-- Counter Section Begin -->
+<section class="counter spad">
+  <div class="container">
+    <div class="row text-center">
+      <!-- عمود للعنصر الأول -->
+      <div class="col-md-3">
+        <div class="counter__item">
+          <h2 class="cn_num">102</h2>
+          <span>{% trans "Our Clients" %}</span>
+        </div>
+      </div>
+      <!-- عمود للعنصر الثاني -->
+      <div class="col-md-3">
+        <div class="counter__item">
+          <h2 class="cn_num">30</h2>
+          <span>{% trans "Total Categories" %}</span>
+        </div>
+      </div>
+      <!-- عمود للعنصر الثالث -->
+      <div class="col-md-3">
+        <div class="counter__item">
+          <h2 class="cn_num">102</h2>
+          <span>{% trans "In Country" %}</span>
+        </div>
+      </div>
+      <!-- عمود للعنصر الرابع -->
+      <div class="col-md-3">
+        <div class="counter__item">
+          <h2 class="cn_num">98<strong>%</strong></h2>
+          <span>{% trans "Happy Customer" %}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Counter Section End -->
+    <!-- Latest Blog Section Begin -->
+     <section class="latest spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <span>Latest News</span>
+                        <h2>Fashion New Trends</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for post in posts %}
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                    <a href="{% url 'blog.post_detail' post.slug %}" >
+                        <div class="blog__item">
+                            <div class="blog__item__pic set-bg" style="background-image: url('{{ post.image.url }}'); "></div>
+                            <div class="blog__item__text">
+                                <span><img src="img/icon/calendar.png" alt="">    {{ post.created_at }}</span>
+                                <h5>
+                                    {% if LANGUAGE_CODE == "ar" %}
+                                {{ post.title }}
+                                {% else %}
+                                {{ post.title }}
+                                {% endif%}
+                                </h5>
+                                 {%trans 'Read more' %}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+                 
+            </div>
+        </div>
+    </section>
+    <!-- Latest Blog Section End -->
+
+    <!-- Search Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="{% trans 'Search here.....' %}">
+            </form>
+        </div>
+    </div>
+    <!-- Search End -->
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+
+{% extends "partails/base.html" %}
+
+{% load i18n %}
+{% block content %}
+<div class="container my-4">
+    <h3 class="mb-4">{% trans "Purchased Products (Last 10 Days)" %}</h1>
+    
+    {% if message %}
+        <div class="alert alert-warning text-center">{{ message }}</div>
+    {% endif %}
+    
+    {% if purchased_items %}
+        <div class="list-group">
+            {% for item in purchased_items %}
+                <div class="list-group-item">
+                    <div class="row align-items-center">
+                        <div class="col-md-2">
+                           <a href="{% url 'store.product' item.product.slug %}"> <img src="{{ item.product.imge.url }}" alt="{{ item.product.name }}" class="img-fluid"></a>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>{{ item.product.name }}</h5>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="mb-0">{{ item.product.spical_price }} {% trans "USD" %}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p class="mb-0">{% trans "Purchase Date:" %} {{ item.purchase_date|date:"Y-m-d" }}</p>
+                        </div>
+                        <div class="col-md-2 text-end">
+                            <a href="{{ item.product.excel_file_url }}" class="btn btn-success" download>
+                                {% trans "Download File" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>{% trans "No purchased products found." %}</p>
+    {% endif %}
+</div>
+{% endblock %}

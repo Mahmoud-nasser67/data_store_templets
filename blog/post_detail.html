@@ -1,0 +1,121 @@
+{% extends 'partails/base.html' %}
+{% load i18n %}
+{% block content %}
+
+<!-- Blog Details Hero Begin -->
+<section class="blog-hero spad">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-9 text-center">
+                <div class="blog__hero__text">
+                    <h2>
+                        {% if LANGUAGE_CODE == "ar" %}
+                        {{ post.title }}
+                        {% else %}
+                        {{ post.title }}
+                        {% endif %}
+                    </h2>
+                    <ul>
+                        <li>{% trans "By" %} {{ post.author }}</li>
+                        <li>{{ post.created_at }}</li>
+                        <li>{{ comment_count }} {% trans "Comments" %}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Details Hero End -->
+
+<!-- Blog Details Section Begin -->
+<section class="blog-details spad">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-12">
+                <div class="blog__details__pic">
+                    <img src="{{ post.image.url }}" alt="{% trans 'Blog image' %}">
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="blog__details__content">
+                    <div class="blog__details__share">
+                        <span>{% trans "Share" %}</span>
+                        <ul>
+                            <li><a href="https://web.facebook.com/?locale=ar_AR&_rdc=1&_rdr#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://web.facebook.com/?locale=ar_AR&_rdc=1&_rdr#" class="twitter"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://www.youtube.com/" class="youtube"><i class="fa fa-youtube-play"></i></a></li>
+                            <li><a href="https://www.linkedin.com/feed/" class="linkedin"><i class="fa fa-linkedin"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="blog__details__text">
+                        <p>{% if LANGUAGE_CODE == "ar"%}
+                                            {{ post.content }}
+                                        {% else %}
+                                            {{ post.translated_content }}
+                                        {% endif %}</p>
+                        <div class="blog__details__quote">
+                            <i class="fa fa-quote-left"></i>
+                            <p>{% trans "When designing an advertisement for a particular product many things should be researched like where it should be displayed." %}</p>
+                            <h6>_ {% trans "John Smith" %} _</h6>
+                        </div>
+                    </div>
+                    <div class="blog__details__option">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="blog__details__author">
+                                    <div class="blog__details__author__pic">
+                                        <img src="/media/blog/details/blog-author.jpg" alt="{% trans 'Author image' %}">
+                                    </div>
+                                    <div class="blog__details__author__text">
+                                        <h5>{% trans "Aiden Blair" %}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="blog__details__tags">
+                                    <a href="#"># {% trans "Fashion" %}</a>
+                                    <a href="#"># {% trans "Trending" %}</a>
+                                    <a href="#"># 2020</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blog__details__btns">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <a href="" class="blog__details__btns__item">
+                                    <p><span class="arrow_left"></span> {% trans "Previous Post" %}</p>
+                                    <h5>{% trans "It’s Classified How To Utilize Free Classified Ad Sites" %}</h5>
+                                </a>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <a href="" class="blog__details__btns__item blog__details__btns__item--next">
+                                    <p>{% trans "Next Post" %} <span class="arrow_right"></span></p>
+                                    <h5>{% trans "Tips For Choosing The Perfect Gloss For Your Lips" %}</h5>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blog__details__comment">
+                        <h4>{% trans "Leave A Comment" %}</h4>
+                        <!-- إضافة تعليق -->
+                        {% if user.is_authenticated %}
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <div class="col-lg-12 text-center">
+                                <button type="submit" class="site-btn">{% trans "Post Comment" %}</button>
+                            </div>
+                        </form>
+                        {% else %}
+                        <p>{% trans "You must" %} <a href="{% url 'login' %}">{% trans "log in" %}</a> {% trans "to leave a comment." %}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Details Section End -->
+
+{% endblock %}

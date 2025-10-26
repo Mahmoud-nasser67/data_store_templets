@@ -1,0 +1,42 @@
+{% extends 'partails/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+
+  <div class="bg-white py-4">
+    <h1 class="text-center text-secondary">{% trans "اكتمل الطلب" %}</h1>
+  </div>
+
+  <div class="container my-5">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="text-center">
+          <i class="lni lni-checkmark-circle text-muted display-1"></i>
+        </h1>
+
+        <p class="text-center mt-4">
+          {% trans "لقد تمت عملية الشراء بنجاح، سيصلك بريد إلكتروني يحتوي على روابط لتحميل الملفات التي طلبتها!" %}
+        </p>
+
+        {% for product in secrt_data %}
+          <div class="my-3">
+            {% if product.excel_file_url %}
+              <a href="{{ product.excel_file_url }}" download class="btn btn-success">
+                <i class="lni lni-download"></i>
+                {% blocktrans with product_name=product.name %}تحميل ملف {{ product_name }}{% endblocktrans %}
+              </a>
+            {% else %}
+              <h2>{% blocktrans with product_name=product.name %}خطأ في تحميل ملف {{ product_name }}{% endblocktrans %}</h2>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <p class="text-center">
+          <a href="/" class="btn btn-primary">{% trans "عودة إلى الصفحة الرئيسية" %}</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

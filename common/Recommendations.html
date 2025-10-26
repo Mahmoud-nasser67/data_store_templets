@@ -1,0 +1,91 @@
+{% load i18n %}  <!-- تحميل مكتبة الترجمة -->
+
+<style>
+    #productCarousel {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        white-space: nowrap;
+        padding-bottom: 10px;
+    }
+    
+    /* إخفاء شريط التمرير */
+    #productCarousel::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .product-item {
+        min-width: 250px;
+        flex-shrink: 0;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="row justify-content-between">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <!-- زر التحريك لليسار -->
+            <button class="btn btn-outline-secondary" id="prevBtn">{% trans "❮" %}</button>
+            <!-- عرض المنتجات داخل شريط أفقي -->
+            <div class="d-flex" id="productCarousel">
+                {% for product in products %}
+                <div class="product-item">
+                    <div class="product__item">
+                        <div class="product-card" style="position: relative;">
+                        <a href="{% url 'store.product' product.slug %}">
+                            <img src="{{ product.imge.url }}" loading="lazy" class="card-img-top" alt="..." style="height: 200px; width: 100%; object-fit: cover;" />
+                        </a>
+                    
+                        <!-- زر القلب أعلى يمين الصورة -->
+                        <a href="{% url 'toggle_favorite' product.slug %}" class="favorite-icon" style="position: absolute; top: 10px; right: 10px;">
+                            {% if product.id in favorites %}
+                                <img src='/media/icon/heart_red.png' loading="lazy" alt="❤️" width="24" height="24">
+                            {% else %}
+                                <img src='/media/icon/heart.png' loading="lazy" alt="🤍" width="24" height="24">
+                            {% endif %}
+                        </a>
+                    </div>
+                        <div class="product__item__text">
+                            <h6>
+                                {% if LANGUAGE_CODE == "ar" %}
+                                    {{ product.name }}
+                                {% else %}
+                                    {{ product.translated_name }}
+                                {% endif %}
+                            </h6>
+                            <a href="{% url 'store.cart_add' product.slug %}" class="add-cart">{% trans "+ Add To Cart" %}</a>
+                            <div class="rating">
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <h5><strong class="text-success mt-3">{{ product.spical_price }}$</strong></h5>
+                            <small class="mt-3" style="text-decoration: line-through;color: red;">{{ product.price }}$</small>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- زر التحريك لليمين -->
+            <button class="btn btn-outline-secondary" id="nextBtn">{% trans "❯" %}</button>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript لتفعيل الأزرار -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var container = document.getElementById("productCarousel");
+        var direction = document.documentElement.lang === "ar" ? -1 : 1;
+
+        document.getElementById("prevBtn").addEventListener("click", function () {
+            container.scrollBy({ left: -300 * direction, behavior: "smooth" });
+        });
+
+        document.getElementById("nextBtn").addEventListener("click", function () {
+            container.scrollBy({ left: 300 * direction, behavior: "smooth" });
+        });
+    });
+</script>

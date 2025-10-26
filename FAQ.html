@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأسئلة الشائعة</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            direction: rtl;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .faq-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        .faq-item h3 {
+            font-size: 18px;
+            color: #007bff;
+            margin: 0 0 10px;
+        }
+        .faq-item p {
+            font-size: 16px;
+            color: #555;
+        }
+        .faq-item:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>الأسئلة الشائعة</h1>
+    <div class="faq-container">
+        {% for faq in faqs %}
+            <div class="faq-item">
+                <h3>{{ faq.question }}</h3>
+                <p>{{ faq.answer }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

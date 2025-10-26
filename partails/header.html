@@ -1,0 +1,840 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<header class="header">
+    <div class="header__top">
+        <div class="container">
+            <div class="row" style='{% if LANGUAGE_CODE == "ar" %}position: relative; right: 15%;{% endif %}'>
+                <div class="col-lg-6 col-md-7">
+                    <div class="header__top__left">
+                        <p>{% trans "Free shipping, 30-day return or refund guarantee." %}</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-5">
+                    <div class="header__top__right">
+                        <div class="header__top__links">
+                            {% if request.user.is_authenticated %}
+                                <a href="{% url 'profile' %}">{% trans "Profile" %}</a>
+                            {% else %}
+                                <a href="{% url 'login' %}">{% trans "Sign in" %}</a>
+                            {% endif %}
+                            <a href="{% url 'faq' %}">{% trans "FAQs" %}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Mobile Menu Button -->
+            <div class="col-2 d-lg-none">
+                <button class="burger-menu" id="burgerBtn">
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                </button>
+            </div>
+
+            <!-- Logo/Brand (Mobile) -->
+            <div class="col-6 d-lg-none text-center">
+                <a href="{% url 'store.index' %}" class="mobile-logo">
+                    <h4 class="mb-0">المتجر</h4>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="col-lg-8 d-none d-lg-block">
+                <nav class="header__menu">
+                    <ul class="menu-items" id="mainMenu">
+                        <li   ><a href="{% url 'store.index' %}" class="fas fa-home me-2">{% trans "Home" %}</a></li>
+
+                        <li class="dropdown-parent ">
+                            <a href="{% url 'store.shop' %}" class="fas fa-shop me-2">{% trans "Shop" %} ▼</a>
+                            <ul class="dropdown">
+                                {% for category in selected_categories %}
+                                    <li><a href="{% url 'store.category' category.id %}">{{ category.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+
+                        <li class="dropdown-parent ">
+                            <a href="#" class="fas">{% trans "Pages" %} ▼</a>
+                            <ul class="dropdown">
+                                <li><a href="{% url 'store.about' %}">{% trans "About Us" %}</a></li>
+                                <li><a href="{% url 'store.cart' %}">{% trans "Shopping Cart" %}</a></li>
+                                <li><a href="{% url 'store.checkout' %}">{% trans "Check Out" %}</a></li>
+                                <li><a href="{% url 'store.purchased' %}">{% trans "Buys" %}</a></li>
+                                
+                                <li><a href="{% url 'store.client_notice' %}">{% trans "Client Notice" %}</a></li>
+                            </ul>
+                        </li>
+
+                        <li><a href="{% url 'blog.index' %}" class="fas">{% trans "Blog" %}</a></li>
+                        <li><a href="{% url 'store.contact' %}" class="fas fa-phone me-2">{% trans "Contacts" %}</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Language & Country Dropdowns -->
+            <div class="col-lg-2 col-4 d-none d-lg-block">
+                <div class="d-flex align-items-center justify-content-end">
+                    <div class="dropdown-parent me-2">
+                        <button class="btn btn-light dropdown-toggle btn-sm" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background: #79d8b8b0;">
+                            {% trans "Language" %}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                            <li>
+                                <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                                    <button type="submit" name="language" value="ar" class="dropdown-item d-flex align-items-center" >
+                                        <img src="/media/Flag_of_Saudi_Arabia.svg.png" width="24" class="me-2"> العربية
+                                    </button>
+                                </form>
+                            </li>
+                            <li>
+                                <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                                    <button type="submit" name="language" value="en" class="dropdown-item d-flex align-items-center">
+                                        <img src="/media/Flag_of_Australia_(converted).svg.png" width="24" class="me-2"> English
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown-parent">
+                        <button class="btn btn-light dropdown-toggle btn-sm" type="button" id="countryDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background: #79d8b8b0;">
+                            {{ selected_country }}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="countryDropdown">
+                            {% for country in countries %}
+                                <li><a class="dropdown-item" href="{% url 'store.category' %}?country={{ country.id }}">{{ country.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header Options (Cart, Search, etc.) -->
+            <div class="col-4 col-lg-2">
+                <div class="header__nav__option">
+                    <a href="#" class="search-switch">
+                        <img src="/media/icon/search.png" alt="" class="header-icon">
+                    </a>
+                    <a href="{% url 'favorite_list' %}" class="d-none d-sm-inline">
+                        <img src="/media/icon/heart.png" alt="" class="header-icon">
+                    </a>
+                    <a href="{% url 'store.cart' %}" class="cart-link">
+                        <img src="/media/icon/cart.png" alt="" class="header-icon">
+                        <span class="cart-count">{{ cart_products|length }}</span>
+                    </a>
+                    <div class="price d-none d-lg-block">${{ cart_total }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-nav" id="mobileNav">
+            <!-- Overlay Background -->
+            <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+            
+            <div class="mobile-nav-content">
+                <div class="mobile-nav-header">
+                    <h5>القائمة</h5>
+                    <button class="close-mobile-nav" id="closeMobileNav" type="button">&times;</button>
+                </div>
+                
+                <ul class="mobile-menu-items">
+                    <li><a href="{% url 'store.index' %}">{% trans "Home" %}</a></li>
+                    
+                    <li class="mobile-dropdown-parent">
+                        <a href="{% url 'store.shop' %}" class="mobile-dropdown-toggle">
+                            {% trans "Shop" %} <span class="mobile-arrow">▼</span>
+                        </a>
+                        <ul class="mobile-dropdown">
+                            {% for category in selected_categories %}
+                                <li><a href="{% url 'store.category' category.id %}">{{ category.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li class="mobile-dropdown-parent">
+                        <a href="#" class="mobile-dropdown-toggle">
+                            {% trans "Pages" %} <span class="mobile-arrow">▼</span>
+                        </a>
+                        <ul class="mobile-dropdown">
+                            <li><a href="{% url 'store.about' %}">{% trans "About Us" %}</a></li>
+                            <li><a href="{% url 'store.cart' %}">{% trans "Shopping Cart" %}</a></li>
+                            <li><a href="{% url 'store.checkout' %}">{% trans "Check Out" %}</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="{% url 'blog.index' %}">{% trans "Blog" %}</a></li>
+                    <li><a href="{% url 'store.contact' %}">{% trans "Contacts" %}</a></li>
+                </ul>
+
+                <!-- Mobile Language & Country Selection -->
+                <div class="mobile-settings">
+                    <div class="mobile-setting-group">
+                        <h6>{% trans "Language" %}</h6>
+                        <div class="mobile-lang-options">
+                            <form action="{% url 'set_language' %}" method="post" class="d-inline">{% csrf_token %}
+                                <button type="submit" name="language" value="ar" class="btn btn-outline-primary btn-sm me-2" >
+                                    العربية
+                                </button>
+                            </form>
+                            <form action="{% url 'set_language' %}" method="post" class="d-inline">{% csrf_token %}
+                                <button type="submit" name="language" value="en" class="btn btn-outline-primary btn-sm" >
+                                    English
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="mobile-setting-group">
+                        <h6>البلد</h6>
+                        <select class="form-select form-select-sm" onchange="location.href='{% url 'store.category' %}?country=' + this.value">
+                            {% for country in countries %}
+                                <option value="{{ country.id }}" {% if country.name == selected_country %}selected{% endif %}>
+                                    {{ country.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Mobile User Links -->
+                <div class="mobile-user-links">
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'profile' %}" class="btn btn-primary btn-sm">{% trans "Profile" %}</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-primary btn-sm">{% trans "Sign in" %}</a>
+                    {% endif %}
+                    <a href="{% url 'faq' %}" class="btn btn-outline-secondary btn-sm">{% trans "FAQs" %}</a>
+                    <a href="{% url 'favorite_list' %}" class="btn btn-outline-secondary btn-sm">المفضلة</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Modal -->
+        <div class="search-modal" id="searchModal">
+            <div class="search-box">
+                <form method="GET" action="{% url 'store.index' %}" class="search-form">
+                    <input name="query" type="text" class="form-control" placeholder="{% trans 'Search' %}" value="{{ request.GET.query }}">
+                    <button id="search-btn" type="submit">
+                        <span class="icon_search">🔍</span>
+                    </button>
+                </form>
+                <span class="close-search" id="closeSearch">&times;</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Scripts -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const burgerBtn = document.getElementById('burgerBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    const closeMobileNav = document.getElementById('closeMobileNav');
+    const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+    const searchSwitch = document.querySelector(".search-switch");
+    const searchModal = document.getElementById('searchModal');
+    const closeSearch = document.getElementById('closeSearch');
+
+    // Function to close mobile menu
+    function closeMobileMenu() {
+        if (mobileNav) {
+            mobileNav.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            document.body.classList.remove('mobile-menu-open');
+        }
+    }
+
+    // Function to open mobile menu
+    function openMobileMenu() {
+        if (mobileNav) {
+            mobileNav.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.body.classList.add('mobile-menu-open');
+        }
+    }
+
+    // Toggle mobile menu
+    if (burgerBtn) {
+        burgerBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            openMobileMenu();
+        });
+    }
+
+    // Close mobile menu via close button
+    if (closeMobileNav) {
+        closeMobileNav.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            closeMobileMenu();
+        });
+    }
+
+    // Close mobile menu via overlay
+    if (mobileNavOverlay) {
+        mobileNavOverlay.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            closeMobileMenu();
+        });
+    }
+
+    // Mobile dropdown toggles
+    document.querySelectorAll('.mobile-dropdown-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            const parent = this.parentElement;
+            const dropdown = parent.querySelector('.mobile-dropdown');
+            const arrow = this.querySelector('.mobile-arrow');
+            
+            // Close other dropdowns
+            document.querySelectorAll('.mobile-dropdown-parent.active').forEach(activeParent => {
+                if (activeParent !== parent) {
+                    activeParent.classList.remove('active');
+                    const activeDropdown = activeParent.querySelector('.mobile-dropdown');
+                    const activeArrow = activeParent.querySelector('.mobile-arrow');
+                    if (activeDropdown) activeDropdown.style.display = 'none';
+                    if (activeArrow) activeArrow.style.transform = 'rotate(0deg)';
+                }
+            });
+            
+            // Toggle current dropdown
+            parent.classList.toggle('active');
+            if (parent.classList.contains('active')) {
+                if (dropdown) dropdown.style.display = 'block';
+                if (arrow) arrow.style.transform = 'rotate(180deg)';
+            } else {
+                if (dropdown) dropdown.style.display = 'none';
+                if (arrow) arrow.style.transform = 'rotate(0deg)';
+            }
+        });
+    });
+
+    // Search modal
+    if (searchSwitch) {
+        searchSwitch.addEventListener("click", function(event) {
+            event.preventDefault();
+            if (searchModal) {
+                searchModal.style.display = "flex";
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    }
+
+    if (closeSearch) {
+        closeSearch.addEventListener("click", function() {
+            if (searchModal) {
+                searchModal.style.display = "none";
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
+
+    // Close modals when clicking outside
+    window.addEventListener("click", function(event) {
+        if (event.target === searchModal) {
+            if (searchModal) {
+                searchModal.style.display = "none";
+                document.body.style.overflow = 'auto';
+            }
+        }
+    });
+
+    // Prevent mobile menu from opening on page load/language change
+    window.addEventListener('load', function() {
+        closeMobileMenu();
+    });
+
+    // Handle page visibility change (for language switching)
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') {
+            closeMobileMenu();
+        }
+    });
+
+    // Escape key to close menus
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeMobileMenu();
+            if (searchModal && searchModal.style.display === 'flex') {
+                searchModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+    });
+});
+</script>
+
+<!-- CSS -->
+<style>
+.header {
+    background: #f8f9fa;
+    padding: 15px 0;
+    position: relative;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.header__top {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.header__top__left p {
+    margin: 0;
+    font-size: 14px;
+    color: #fffff;
+}
+
+.header__top__links a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 15px;
+    font-size: 14px;
+}
+
+.header__top__links a:hover {
+    color: #007bff;
+}
+
+/* Desktop Menu */
+.menu-items {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 30px;
+    align-items: center;
+}
+
+.menu-items li {
+    position: relative;
+}
+
+.menu-items a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    padding: 10px 0;
+    display: block;
+    transition: color 0.3s ease;
+}
+
+.menu-items a:hover {
+    color: #007bff;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    min-width: 200px;
+    padding: 10px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    z-index: 1000;
+}
+
+.dropdown li {
+    margin: 0;
+}
+
+.dropdown a {
+    padding: 8px 20px;
+    font-weight: normal;
+}
+
+.dropdown a:hover {
+    background: #f8f9fa;
+}
+
+.dropdown-parent:hover .dropdown {
+    display: block;
+}
+
+/* Header Icons */
+.header__nav__option {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.header-icon {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.header-icon:hover {
+    transform: scale(1.1);
+}
+
+.cart-link {
+    position: relative;
+    text-decoration: none;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #dc3545;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.price {
+    font-weight: bold;
+    color: #28a745;
+}
+
+/* Mobile Logo */
+.mobile-logo {
+    text-decoration: none;
+    color: #333;
+}
+
+/* Burger Menu */
+.burger-menu {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    flex-direction: column;
+    gap: 4px;
+    transition: all 0.3s ease;
+    z-index: 10001;
+    position: relative;
+}
+
+.burger-line {
+    width: 25px;
+    height: 3px;
+    background: #333;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Mobile Navigation */
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.mobile-nav.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.mobile-nav-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    cursor: pointer;
+}
+
+.mobile-nav-content {
+    position: absolute;
+    top: 0;
+    width: 300px;
+    height: 100vh;
+    background: white;
+    padding: 20px;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+    z-index: 10000;
+}
+
+/* Default positioning for LTR */
+body:not([dir="rtl"]) .mobile-nav-content {
+    right: 0;
+    transform: translateX(100%);
+}
+
+body:not([dir="rtl"]) .mobile-nav.active .mobile-nav-content {
+    transform: translateX(0);
+}
+
+/* RTL positioning */
+body[dir="rtl"] .mobile-nav-content,
+html[dir="rtl"] .mobile-nav-content {
+    left: 0;
+    transform: translateX(-100%);
+}
+
+body[dir="rtl"] .mobile-nav.active .mobile-nav-content,
+html[dir="rtl"] .mobile-nav.active .mobile-nav-content {
+    transform: translateX(0);
+}
+
+/* Arabic language specific */
+html[lang="ar"] .mobile-nav-content,
+body[lang="ar"] .mobile-nav-content {
+    left: 0;
+    transform: translateX(-100%);
+}
+
+html[lang="ar"] .mobile-nav.active .mobile-nav-content,
+body[lang="ar"] .mobile-nav.active .mobile-nav-content {
+    transform: translateX(0);
+}
+
+.mobile-nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.close-mobile-nav {
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.close-mobile-nav:hover {
+    background-color: #f0f0f0;
+}
+
+.mobile-menu-items {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
+}
+
+.mobile-menu-items li {
+    margin-bottom: 5px;
+}
+
+.mobile-menu-items a {
+    display: block;
+    padding: 12px 0;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.mobile-dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mobile-arrow {
+    transition: transform 0.3s ease;
+    margin-left: 10px;
+}
+
+body[dir="rtl"] .mobile-arrow,
+html[dir="rtl"] .mobile-arrow,
+html[lang="ar"] .mobile-arrow,
+body[lang="ar"] .mobile-arrow {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.mobile-dropdown {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.mobile-dropdown a {
+    padding: 10px 15px;
+    font-size: 14px;
+    border-bottom: none;
+}
+
+.mobile-settings {
+    margin-bottom: 30px;
+}
+
+.mobile-setting-group {
+    margin-bottom: 20px;
+}
+
+.mobile-setting-group h6 {
+    margin-bottom: 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+.mobile-lang-options {
+    display: flex;
+    gap: 10px;
+}
+
+.mobile-user-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Prevent body scroll when menu is open */
+body.mobile-menu-open {
+    overflow: hidden !important;
+}
+
+/* Search Modal */
+.search-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.search-box {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-form input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.search-form input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.search-form button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.search-form button:hover {
+    background: #0056b3;
+}
+
+.close-search {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    cursor: pointer;
+    color: #666;
+    background: none;
+    border: none;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+    .header__top {
+        display: none;
+    }
+    
+    .burger-menu {
+        display: flex;
+    }
+
+    .header__nav__option {
+        gap: 10px;
+    }
+    
+    .header-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .header {
+        padding: 10px 0;
+    }
+    
+    .mobile-nav-content {
+        width: 280px;
+    }
+    
+    .search-box {
+        padding: 20px;
+    }
+    
+    .header__nav__option {
+        gap: 8px;
+    }
+}
+
+@media (max-width: 575px) {
+    .mobile-nav-content {
+        width: 100%;
+    }
+    
+    .cart-count {
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+    }
+}
+</style>

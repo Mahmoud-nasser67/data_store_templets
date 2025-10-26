@@ -1,0 +1,91 @@
+{% extends 'partails/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <!-- Shopping Cart Section Begin -->
+    <section class="shopping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="shopping__cart__table">
+                          <table>
+                            <thead>
+                                <tr>
+                                    <th>{% trans "Product" %}</th>
+                                    <th>{% trans "Quantity" %}</th>
+                                    <th>{% trans "Total" %}</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                             {% for product in cart_products %}
+                                <tr>
+                                    <td class="product__cart__item">
+                                        <div class="product__cart__item__pic">
+                                            <img src="{{ product.imge.url }}" loading="lazy" alt="{{ product.name }}" style="max-width: 200;">
+                                        </div>
+                                        <div class="product__cart__item__text">
+                                            <h6>{{ product.name }}</h6>
+                                            <h5>{{ product.spical_price }} $</h5>
+                                        </div>
+                                    </td>
+                                    <td class="quantity__item">
+                                        <div class="quantity">
+                                            <div class="pro-qty-2">
+                                                <input type="text" value="1">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="cart__price">$ {{ product.spical_price }}</td>
+                                    <td class="cart__close"><i class="fa fa-close" data-url="{% url 'store.cart_remove' product.id %}" onclick="cartRemove(this)"></i></td>
+                                </tr>
+                            {% empty %}
+                                <div class="h-100 p-5 bg-white border rounded-3 text-center">
+                                    <p class="fs-1">{% trans "Your cart is empty" %}</p>
+                                    <p>
+                                        <i class="lni lni-cart fs-1 text-muted"></i>
+                                    </p>
+                                </div>
+                             {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="continue__btn">
+                                    <a href="javascript:void(0);" onclick="window.history.back();">{% trans "Continue Shopping" %}</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="continue__btn update__btn">
+                                    <a href="{% url 'store.cart' %}"><i class="fa fa-spinner"></i> {% trans "Update cart" %}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="col-lg-4">
+                    <div class="cart__discount">
+                        <h6>{% trans "Discount codes" %}</h6>
+                        <form action="#">
+                            <input type="text" placeholder="{% trans 'Coupon code' %}">
+                            <button type="submit">{% trans "Apply" %}</button>
+                        </form>
+                    </div>
+                    <div class="cart__total">
+                        <h6>{% trans "Cart total" %}</h6>
+                        <ul>
+                            <li>{% trans "Subtotal" %} <span>$ {{ cart_total }}</span></li>
+                            <li>{% trans "Total" %} <span>$ {{ cart_total }}$</span></li>
+                        </ul>
+                        <a href="{% url 'store.checkout' %}" class="primary-btn">
+                            {% trans "Proceed to checkout" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+
+{% endblock %}

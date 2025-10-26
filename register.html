@@ -1,0 +1,80 @@
+{% extends 'partails/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center text-primary mb-4">{% trans 'Create a New Account' %}</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- عرض الأخطاء بشكل واضح -->
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <strong>{% trans 'Please correct the following errors:' %}</strong>
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><i class="fa fa-user"></i> {% trans 'First Name' %}</label>
+                    {{ form.first_name }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><i class="fa fa-user"></i> {% trans 'Last Name' %}</label>
+                    {{ form.last_name }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><i class="fa fa-user"></i> {% trans 'Username' %}</label>
+                {{ form.username }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><i class="fa fa-envelope"></i> {% trans 'Email' %}</label>
+                {{ form.email }}
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><i class="fa fa-lock"></i> {% trans 'Password' %}</label>
+                    {{ form.password1 }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><i class="fa fa-lock"></i> {% trans 'Confirm Password' %}</label>
+                    {{ form.password2 }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><i class="fa fa-phone"></i> {% trans 'Phone Number' %}</label>
+                {{ form.phone_number }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><i class="fa fa-image"></i> {% trans 'Profile Picture' %}</label>
+                {{ form.profile_image }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><i class="fa fa-info-circle"></i> {% trans 'Bio' %}</label>
+                {{ form.bio }}
+            </div>
+
+            <button type="submit" class="btn btn-success w-100"><i class="fa fa-user-plus"></i> {% trans 'Register' %}</button>
+        </form>
+
+        <p class="text-center mt-3">{% trans 'Already have an account?' %} <a href="{% url 'login' %}" class="text-primary">{% trans 'Login' %}</a></p>
+    </div>
+</div>
+{% endblock %}

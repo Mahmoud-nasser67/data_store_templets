@@ -1,0 +1,50 @@
+{% extends 'partails/base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block content %}
+   {% if user.is_authenticated %}
+       <h1 style='text-align: center;'>المنتجات المفضلة</h1>
+        <div class="row" style='margin: 20px;'>
+            {% for fav in favorites %}
+                <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
+                    <div class="product__item">
+                        <a href="{% url 'store.product' fav.product.id %}">
+                            <img src="{{ fav.product.imge.url }}" class="card-img-top" alt="..." style="height: 200px" />
+                        </a>
+                        <div class="product__item__text">
+                            <h6>
+                                {% if LANGUAGE_CODE == "ar" %}
+                                    {{ fav.product.name }}
+                                {% else %}
+                                    {{ fav.product.translated_name }}
+                                {% endif %}
+                            </h6>
+                            <a href="{% url 'store.cart_add' fav.product.id %}" class="add-cart">{% trans "+ Add To Cart" %}</a>
+                            <div class="rating" style='margin: 5px;'>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <h5><strong class="text-success mt-3">{{ fav.product.spical_price}}$</strong></h5>
+                            <small class="mt-3" style="text-decoration: line-through;color: red;">{{ fav.product.price }}$</small>
+                    </div>
+            </div>
+        </div>
+            {% empty %}
+                <p>لا توجد منتجات مفضلة بعد.</p>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center">
+            {% trans "Please"%} 
+            <a href="{% url 'login' %}">{% trans "login" %}</a> 
+            {%trans " to see your favorites." %}
+        </div>
+    {% endif %}
+    
+    
+{% endblock %}

@@ -1,0 +1,118 @@
+<!-- سلايدر محسّن -->
+<div class="main-slider my-auto swiper-container custom-slider">
+    <!-- Pagination for swiper -->
+    <div class="swiper-pagination"></div>
+
+    <!-- Slides container -->
+    <div class="swiper-wrapper">
+        {% for slide in slides %}
+        <div class="swiper-slide">
+            <div class="d-flex flex-lg-row flex-column align-items-center justify-content-center p-3">
+                <!-- صورة العرض -->
+                <div class="p-2">
+                    <img
+                        src="{{ slide.imge.url }}"
+                        alt="{{ slide.title }}"
+                        class="img-fluid rounded shadow slide-img"
+                    />
+                </div>
+
+                <!-- محتوى العرض -->
+                <div class="p-2 text-center slide-content">
+                    <h4 class="text-dark fw-bold">{{ slide.title }}</h4>
+                    <blockquote class="blockquote mt-2">
+                        <p class="text-muted">{{ slide.suptitle }}</p>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- أزرار التنقل -->
+    <div class="swiper-button-next custom-next"></div>
+    <div class="swiper-button-prev custom-prev"></div>
+</div>
+
+<!-- تحسينات CSS -->
+<style>
+    /* تصغير السلايدر ليكون بحجم مناسب */
+    .custom-slider {
+        max-width: 750px;
+        margin: auto;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center; /* توسيط عمودي */
+        margin-left: 50%;
+    }
+ html[dir="ltr"] .custom-slider {
+    margin-left: auto; /* إلغاء اليسار */
+    margin-right: 50%; /* ضبط الهامش على اليمين */
+}
+    /* تحسين الصورة */
+    .slide-img {
+        max-width: 220px;
+        height: auto;
+        border-radius: 10px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .slide-img:hover {
+        transform: scale(1.05);
+    }
+
+    /* تحسين النصوص */
+    .slide-content {
+        background: rgba(255, 255, 255, 0.8);
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    /* تحسين الأزرار */
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: white !important;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 10px;
+        border-radius: 50%;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+        background: rgba(255, 255, 255, 0.9);
+        color: black !important;
+        transform: scale(1.15);
+    }
+
+    .custom-next {
+        right: -35px;
+    }
+
+    .custom-prev {
+        left: -35px;
+    }
+</style>
+
+<!-- Initialize Swiper.js -->
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 1,
+        spaceBetween: 5,
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+    });
+</script>
