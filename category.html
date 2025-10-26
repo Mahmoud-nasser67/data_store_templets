@@ -2,7 +2,210 @@
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
 {% block content %}
-<!-- إذا تم تحديد فئة معينة، يتم تضمين عنوان الصفحة -->
+<style>
+    .shop.spad {
+        padding: 80px 0;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+    }
+    .shop__sidebar {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 100px;
+    }
+    .shop__sidebar__search {
+        margin-bottom: 30px;
+    }
+    .shop__sidebar__search form {
+        position: relative;
+        display: flex;
+        gap: 10px;
+    }
+    .shop__sidebar__search input {
+        flex: 1;
+        padding: 15px 20px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+    }
+    .shop__sidebar__search input:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+    }
+    .shop__sidebar__search button {
+        padding: 15px 25px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 12px;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .shop__sidebar__search button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+    }
+    .card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+    .card-heading a {
+        display: block;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    .card-heading a:hover {
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    }
+    .card-body {
+        padding: 25px;
+    }
+    .shop__sidebar__categories ul {
+        list-style: none;
+        padding: 0;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    .shop__sidebar__categories ul::-webkit-scrollbar {
+        width: 8px;
+    }
+    .shop__sidebar__categories ul::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    .shop__sidebar__categories ul::-webkit-scrollbar-thumb {
+        background: #667eea;
+        border-radius: 10px;
+    }
+    .shop__sidebar__categories ul li {
+        margin-bottom: 12px;
+    }
+    .shop__sidebar__categories ul li a {
+        display: block;
+        padding: 12px 18px;
+        color: #4a5568;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+    .shop__sidebar__categories ul li a:hover {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        transform: translateX(5px);
+        text-decoration: none;
+    }
+    .shop__sidebar__price ul {
+        list-style: none;
+        padding: 0;
+    }
+    .shop__sidebar__price ul li {
+        margin-bottom: 12px;
+    }
+    .shop__sidebar__price ul li a {
+        display: block;
+        padding: 12px 18px;
+        color: #4a5568;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        border: 2px solid transparent;
+    }
+    .shop__sidebar__price ul li a:hover,
+    .shop__sidebar__price ul li a.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        transform: translateX(5px);
+        text-decoration: none;
+    }
+    .shop__product__option {
+        background: #fff;
+        padding: 25px 30px;
+        border-radius: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+    .shop__product__option__left p {
+        color: #4a5568;
+        font-weight: 500;
+        margin: 0;
+    }
+    .shop__product__option__right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 15px;
+    }
+    .shop__product__option__right p {
+        margin: 0;
+        color: #4a5568;
+        font-weight: 600;
+    }
+    .shop__product__option__right select {
+        padding: 10px 20px;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        color: #4a5568;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .shop__product__option__right select:focus {
+        outline: none;
+        border-color: #667eea;
+    }
+    .product__pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 40px 0;
+    }
+    .product__pagination a {
+        padding: 12px 20px;
+        background: #fff;
+        color: #4a5568;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        text-decoration: none;
+    }
+    .product__pagination a:hover,
+    .product__pagination a.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+    }
+    .collapse.show {
+        animation: slideDown 0.3s ease;
+    }
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
 {% if category %}
 {% include 'common/page_title.html' with category=category %}
 {% endif %}
@@ -11,7 +214,7 @@
 <section class="shop spad">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3" >
+            <div class="col-lg-3">
                 <div class="shop__sidebar" style='text-align: center;'>
                     <div class="shop__sidebar__search">
                         <form action="{% url 'store.category' %}" method="get">
@@ -112,7 +315,6 @@
                                         <option value="price_desc" {% if sort_by == "price_desc" %}selected{% endif %}>{% trans 'High To Low' %}</option>
                                     </select>
                         
-                                    <!-- الاحتفاظ بجميع المعاملات الأخرى في الرابط -->
                                     {% for key, value in request.GET.items %}
                                         {% if key != "sort" %}
                                             <input type="hidden" name="{{ key }}" value="{{ value }}">
@@ -122,7 +324,6 @@
                             </div>
                         </div>
                         <p>{{sort_by}}</p>
-                <!-- عرض المنتجات -->
                 <div class="row">
                     {% include 'common/product_cart.html' with products=page_obj  %}
                 </div>
@@ -130,13 +331,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="product__pagination">
-                            <!-- زر "السابق" -->
                             {% if page_obj.has_previous %}
                             <a href="?page={{ page_obj.previous_page_number }}" style=" margin: 40px">
                                 {% trans 'Previous' %}</a>
                             {% endif %}
 
-                            <!-- عرض أرقام الصفحات -->
                             {% for num in page_obj.paginator.page_range %}
                             {% if page_obj.number == num %}
                             <a class="active" href="?page={{ num }}">{{ num }}</a>
@@ -145,7 +344,6 @@
                             {% endif %}
                             {% endfor %}
 
-                            <!-- زر "التالي" -->
                             {% if page_obj.has_next %}
                             <a href="?page={{ page_obj.next_page_number }}">{% trans 'Next' %}</a>
                             {% endif %}
